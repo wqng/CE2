@@ -29,7 +29,8 @@ public class TextBuddyTest {
 	}
 	
 	@Test
-	public void test() {
-		
+	public void testSearchEmpty() {
+		searchFoundContents = TextBuddy.searchData("");
+		assertTrue(searchFoundContents.isEmpty());
 	}
 }
