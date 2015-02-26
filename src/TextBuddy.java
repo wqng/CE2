@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +30,7 @@ public class TextBuddy {
 
 	// Commands available to the User
 	enum COMMAND {
-		ADD, DISPLAY, DELETE, CLEAR, SEARCH, EXIT, INVALID
+		ADD, DISPLAY, DELETE, CLEAR, SEARCH, SORT, EXIT, INVALID
 	};
 
 	private static final String MESSAGE_WELCOME = "\nWelcome to TextBuddy. \"%1$s\" is ready for use.";
@@ -41,6 +40,7 @@ public class TextBuddy {
 	private static final String MESSAGE_CLEAR = "\nAll content deleted from \"%1$s\".";
 	private static final String MESSAGE_FOUND = "\nSearch found in \"%1$s\" with search key: \"%2$s\"";
 	private static final String MESSAGE_NOT_FOUND ="\nSearch not found in \"%1$s\" with search key: \"%2$s\"";
+	private static final String MESSAGE_SORT_COMPLETE = "\nSort completed.";
 	private static final String MESSAGE_EMPTY_LIST = "\n\"%1$s\" is empty.";
 	private static final String MESSAGE_EMPTY_SEARCH_LIST = "\nSearch list is empty.";
 
@@ -225,6 +225,10 @@ public class TextBuddy {
 			// Method call to search for data based on search key
 			searchData(userInputData);
 			break;
+		case SORT:
+			// Method call to sort data
+			sortData();
+			break;
 		case EXIT:
 			// Method call to exit from the Application
 			exit();
@@ -273,6 +277,8 @@ public class TextBuddy {
 			return COMMAND.CLEAR;
 		} else if(userCommand.equalsIgnoreCase("search")) {
 			return COMMAND.SEARCH;
+		} else if (userCommand.equalsIgnoreCase("sort")) {
+			return COMMAND.SORT;
 		} else if (userCommand.equalsIgnoreCase("exit")) {
 			return COMMAND.EXIT;
 		} else {
@@ -348,6 +354,7 @@ public class TextBuddy {
 		}
 	}
 	
+	// This method will compare the data with the search key
 	private static boolean compareData(String data, String searchKey) {
 		boolean compareFlag = false;
 		
@@ -357,6 +364,7 @@ public class TextBuddy {
 		return compareFlag;
 	}
 	
+	// This method will display the search data
 	private static void displaySearchData() {
 		int dataCounter = 1;
 		if (searchFoundContents.size() > 0) {
@@ -365,6 +373,17 @@ public class TextBuddy {
 			}
 		} else {
 			displayMessage(String.format(MESSAGE_EMPTY_SEARCH_LIST));
+		}
+	}
+	
+	// This method will sort the data
+	private static void sortData() {
+		if (fileContents.size() > 0) {
+			Collections.sort(fileContents);
+			displayMessage(String.format(MESSAGE_SORT_COMPLETE, fileName));
+		}
+		else {
+			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
 	}
 	
