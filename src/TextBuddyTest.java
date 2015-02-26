@@ -62,4 +62,12 @@ public class TextBuddyTest {
 		searchFoundContents = TextBuddy.searchData("national uni");
 		assertTrue(searchFoundContents.contains("national univerity of singapore"));
 	}
+	
+	@Test
+	public void testSortEmpty() {
+		TextBuddy.clearData();
+		
+		searchFoundContents = TextBuddy.sortData();
+		assertTrue(searchFoundContents.isEmpty());
+	}
 }

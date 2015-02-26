@@ -197,7 +197,7 @@ public class TextBuddy {
 	// This method will process the User's input, extracting the command and
 	// data separately
 	public static void processInputData(String userInput) {
-		ArrayList<String> searchResultList;
+		ArrayList<String> resultList;
 		String userCommand = getUserCommand(userInput);
 		String userInputData = getUserInputData(userInput);
 
@@ -225,11 +225,11 @@ public class TextBuddy {
 			break;
 		case SEARCH:
 			// Method call to search for data based on search key
-			searchResultList = searchData(userInputData);
+			resultList = searchData(userInputData);
 			break;
 		case SORT:
 			// Method call to sort data
-			sortData();
+			resultList = sortData();
 			break;
 		case EXIT:
 			// Method call to exit from the Application
@@ -386,7 +386,7 @@ public class TextBuddy {
 	}
 	
 	// This method will sort the data
-	private static void sortData() {
+	public static ArrayList<String> sortData() {
 		if (fileContents.size() > 0) {
 			Collections.sort(fileContents);
 			displayMessage(String.format(MESSAGE_SORT_COMPLETE, fileName));
@@ -395,6 +395,7 @@ public class TextBuddy {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
 		saveFileData();
+		return fileContents;
 	}
 	
 	// This method will exit the Application
