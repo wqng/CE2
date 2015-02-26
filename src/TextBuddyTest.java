@@ -33,4 +33,10 @@ public class TextBuddyTest {
 		searchFoundContents = TextBuddy.searchData("");
 		assertTrue(searchFoundContents.isEmpty());
 	}
+	
+	@Test
+	public void testSearchNoSuchItem() {
+		searchFoundContents = TextBuddy.searchData("ibm");
+		assertTrue(searchFoundContents.isEmpty());
+	}
 }
