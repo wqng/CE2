@@ -293,11 +293,14 @@ public class TextBuddy {
 	// This method will delete data specified by the User
 	private static void deleteData(String userInputData) {
 		int userData = Integer.parseInt(userInputData);
-		if (fileContents.size() > 0 && userData <= fileContents.size()
-				&& (userData - 1) >= 0) {
-			String data = fileContents.get(userData - 1);
-			fileContents.remove(userData - 1);
-			displayMessage(String.format(MESSAGE_DELETE, fileName, data));
+		// To check whether the list is empty
+		if (fileContents.size() > 0) {
+			// To check whether the delete item index is out of bound
+			if (userData <= fileContents.size() && (userData - 1) >= 0) {
+				String data = fileContents.get(userData - 1);
+				fileContents.remove(userData - 1);
+				displayMessage(String.format(MESSAGE_DELETE, fileName, data));
+			}
 		} else {
 			displayMessage(MESSAGE_ERROR_INVALID_OPTION);
 		}
