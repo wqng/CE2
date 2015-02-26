@@ -24,12 +24,14 @@ public class TextBuddy {
 
 	// ArrayList to store the data entered by the User
 	private static ArrayList<String> fileContents;
+	// ArrayList to store the search data
+	private static ArrayList<String> searchFoundContents;
 
 	private static String fileName = "";
 
 	// Commands available to the User
 	enum COMMAND {
-		ADD, DISPLAY, DELETE, CLEAR, EXIT, INVALID
+		ADD, DISPLAY, DELETE, CLEAR, SEARCH, EXIT, INVALID
 	};
 
 	private static final String MESSAGE_WELCOME = "\nWelcome to TextBuddy. \"%1$s\" is ready for use.";
@@ -37,6 +39,8 @@ public class TextBuddy {
 	private static final String MESSAGE_ADD = "\nAdded to \"%1$s\": \"%2$s\"";
 	private static final String MESSAGE_DELETE = "\nDeleted from \"%1$s\": \"%2$s\"";
 	private static final String MESSAGE_CLEAR = "\nAll content deleted from \"%1$s\".";
+	private static final String MESSAGE_FOUND = "\nSearch found in \"%1$s\" with search key: \"%2$s\"";
+	private static final String MESSAGE_NOT_FOUND ="\nSearch not found in \"%1$s\" with search key: \"%2$s\"";
 	private static final String MESSAGE_EMPTY_LIST = "\n\"%1$s\" is empty.";
 	private static final String MESSAGE_EMPTY_SEARCH_LIST = "\nSearch list is empty.";
 
@@ -217,6 +221,10 @@ public class TextBuddy {
 			// Method call to clear all data in the file
 			clearData();
 			break;
+		case SEARCH:
+			// Method call to search for data based on search key
+			searchData(userInputData);
+			break;
 		case EXIT:
 			// Method call to exit from the Application
 			exit();
@@ -263,6 +271,8 @@ public class TextBuddy {
 			return COMMAND.DISPLAY;
 		} else if (userCommand.equalsIgnoreCase("clear")) {
 			return COMMAND.CLEAR;
+		} else if(userCommand.equalsIgnoreCase("search")) {
+			return COMMAND.SEARCH;
 		} else if (userCommand.equalsIgnoreCase("exit")) {
 			return COMMAND.EXIT;
 		} else {
@@ -312,6 +322,51 @@ public class TextBuddy {
 		displayMessage(String.format(MESSAGE_CLEAR, fileName));
 	}
 	
+	// This method will search for the data that matches the search key
+	private static void searchData(String userInputData) {
+		boolean foundFlag = false;
+		searchFoundContents = new ArrayList<String>();
+		
+		if(fileContents.size() > 0) {
+			for(String data : fileContents)	{
+				
+				if(compareData(data, userInputData)) {
+					foundFlag = true;			
+					searchFoundContents.add(data);
+				}
+			}
+			if(foundFlag) {
+				displaySearchData();
+				displayMessage(String.format(MESSAGE_FOUND, fileName, userInputData));
+			}
+			else {
+				displayMessage(String.format(MESSAGE_NOT_FOUND, fileName, userInputData));
+			}
+		}
+		else {
+			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
+		}
+	}
+	
+	private static boolean compareData(String data, String searchKey) {
+		boolean compareFlag = false;
+		
+		if(data.toLowerCase().contains(searchKey.toLowerCase())) {
+			compareFlag = true;
+		}
+		return compareFlag;
+	}
+	
+	private static void displaySearchData() {
+		int dataCounter = 1;
+		if (searchFoundContents.size() > 0) {
+			for(String data : searchFoundContents) {
+				System.out.println("\n" + (dataCounter++) + ". " + data);
+			}
+		} else {
+			displayMessage(String.format(MESSAGE_EMPTY_SEARCH_LIST));
+		}
+	}
 	
 	// This method will exit the Application
 	private static void exit() {
