@@ -280,9 +280,10 @@ public class TextBuddy {
 
 	// This method will display all the data in the file
 	private static void displayData() {
+		int dataCounter = 1;
 		if (fileContents.size() > 0) {
-			for (int i = 0; i < fileContents.size(); i++) {
-				System.out.println("\n" + (i + 1) + ". " + fileContents.get(i));
+			for(String data : fileContents) {
+				System.out.println("\n" + (dataCounter++) + ". " + data);
 			}
 		} else {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
