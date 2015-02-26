@@ -21,6 +21,9 @@ public class TextBuddyTest {
 		TextBuddy.processInputData("add sutd");
 		TextBuddy.processInputData("add sit");
 		TextBuddy.processInputData("add sim");
+		TextBuddy.processInputData("add national univerity of singapore");
+		TextBuddy.processInputData("add nanyang technological university");
+		TextBuddy.processInputData("add singapore management university");
 	}
 
 	@After
@@ -47,5 +50,16 @@ public class TextBuddyTest {
 		assertTrue(searchFoundContents.contains("sit"));
 		assertTrue(searchFoundContents.contains("sutd"));
 		assertFalse(searchFoundContents.contains("nus"));
+	}
+	
+	@Test
+	public void testSearchMultipleKeyWords() {
+		searchFoundContents = TextBuddy.searchData("university singapore");
+		assertFalse(searchFoundContents.contains("national univerity of singapore"));
+		assertFalse(searchFoundContents.contains("nanyang technological university"));
+		assertFalse(searchFoundContents.contains("singapore management university"));
+		
+		searchFoundContents = TextBuddy.searchData("national uni");
+		assertTrue(searchFoundContents.contains("national univerity of singapore"));
 	}
 }
