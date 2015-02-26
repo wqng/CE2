@@ -9,15 +9,17 @@ public class TextBuddyTest {
 
 	@Before
 	public void setUp() throws Exception {
+		TextBuddy.loadFileData(new String[] {"mytextfile.txt"});
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		TextBuddy.clearData();
 	}
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		
 	}
 
 }

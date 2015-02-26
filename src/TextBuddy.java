@@ -61,10 +61,10 @@ public class TextBuddy {
 		// Method call to check for incorrect file format
 		exitIfIncorrectFileFormat(args);
 
-		fileName = new String(args[0]);
+		//fileName = new String(args[0]);
 
 		// Method call to load the file data
-		loadFileData(fileName);
+		loadFileData(args);
 
 		// Method call to execute User input
 		executeUserInput();
@@ -108,7 +108,8 @@ public class TextBuddy {
 	 * information entered by the User. Upon successful initialization, the User
 	 * will see the welcome message and start interacting with the Application.
 	 */
-	private static void loadFileData(String fileName) {
+	public static void loadFileData(String[] args) {
+		fileName = new String(args[0]);
 		File fileDocument = new File(fileName);
 
 		if (fileDocument.exists()) {
@@ -131,7 +132,7 @@ public class TextBuddy {
 				// If file specified does not exist, proceed to create file
 				fileDocument.createNewFile();
 
-				loadFileData(fileName);
+				//loadFileData(fileName);
 			} catch (IOException e) {
 				displayMessage(MESSAGE_ERROR_FILE_NOT_CREATED);
 
@@ -292,6 +293,7 @@ public class TextBuddy {
 			fileContents.add(userInputData);
 			displayMessage(String.format(MESSAGE_ADD, fileName, userInputData));
 		}
+		saveFileData();
 	}
 
 	// This method will display all the data in the file
@@ -320,12 +322,14 @@ public class TextBuddy {
 		} else {
 			displayMessage(MESSAGE_ERROR_INVALID_OPTION);
 		}
+		saveFileData();
 	}
 
 	// This method will clear all the data in the file
-	private static void clearData() {
+	public static void clearData() {
 		fileContents.clear();
 		displayMessage(String.format(MESSAGE_CLEAR, fileName));
+		saveFileData();
 	}
 	
 	// This method will search for the data that matches the search key
@@ -385,6 +389,7 @@ public class TextBuddy {
 		else {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
+		saveFileData();
 	}
 	
 	// This method will exit the Application
@@ -394,7 +399,7 @@ public class TextBuddy {
 
 	// This method will save the interactions by the User to the file. For
 	// example, like adding data
-	private static void saveFileData() {
+	public static void saveFileData() {
 		try {
 			FileWriter fileWriter = new FileWriter(fileName);
 
