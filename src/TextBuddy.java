@@ -196,7 +196,8 @@ public class TextBuddy {
 
 	// This method will process the User's input, extracting the command and
 	// data separately
-	private static void processInputData(String userInput) {
+	public static void processInputData(String userInput) {
+		ArrayList<String> searchResultList;
 		String userCommand = getUserCommand(userInput);
 		String userInputData = getUserInputData(userInput);
 
@@ -224,7 +225,7 @@ public class TextBuddy {
 			break;
 		case SEARCH:
 			// Method call to search for data based on search key
-			searchData(userInputData);
+			searchResultList = searchData(userInputData);
 			break;
 		case SORT:
 			// Method call to sort data
@@ -256,11 +257,14 @@ public class TextBuddy {
 
 	// This method will extract the data from User's input
 	private static String getUserInputData(String userInput) {
+		String userInputData = "";
 		int userInputLength = userInput.length();
 		int spaceIndex = userInput.indexOf(" ");
-
-		String userInputData = userInput.substring(spaceIndex + 1,
-				userInputLength);
+		
+		if (spaceIndex != -1) {
+			userInputData = userInput.substring(spaceIndex + 1,
+					userInputLength);
+		} 
 		return userInputData;
 	}
 
@@ -333,14 +337,14 @@ public class TextBuddy {
 	}
 	
 	// This method will search for the data that matches the search key
-	private static void searchData(String userInputData) {
+	public static ArrayList<String> searchData(String userInputData) {
 		boolean foundFlag = false;
 		searchFoundContents = new ArrayList<String>();
 		
 		if(fileContents.size() > 0) {
 			for(String data : fileContents)	{
 				
-				if(compareData(data, userInputData)) {
+				if(compareData(data, userInputData) && !userInputData.equals("")) {
 					foundFlag = true;			
 					searchFoundContents.add(data);
 				}
@@ -356,6 +360,7 @@ public class TextBuddy {
 		else {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
+		return searchFoundContents;
 	}
 	
 	// This method will compare the data with the search key
