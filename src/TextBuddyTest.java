@@ -1,4 +1,6 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class TextBuddyTest {
 		TextBuddy.processInputData("add sutd");
 		TextBuddy.processInputData("add sit");
 		TextBuddy.processInputData("add sim");
-		TextBuddy.processInputData("add national univerity of singapore");
+		TextBuddy.processInputData("add national university of singapore");
 		TextBuddy.processInputData("add nanyang technological university");
 		TextBuddy.processInputData("add singapore management university");
 	}
@@ -55,12 +57,12 @@ public class TextBuddyTest {
 	@Test
 	public void testSearchMultipleKeyWords() {
 		searchFoundContents = TextBuddy.searchData("university singapore");
-		assertFalse(searchFoundContents.contains("national univerity of singapore"));
+		assertFalse(searchFoundContents.contains("national university of singapore"));
 		assertFalse(searchFoundContents.contains("nanyang technological university"));
 		assertFalse(searchFoundContents.contains("singapore management university"));
 		
 		searchFoundContents = TextBuddy.searchData("national uni");
-		assertTrue(searchFoundContents.contains("national univerity of singapore"));
+		assertTrue(searchFoundContents.contains("national university of singapore"));
 	}
 	
 	@Test
@@ -69,5 +71,12 @@ public class TextBuddyTest {
 		
 		searchFoundContents = TextBuddy.sortData();
 		assertTrue(searchFoundContents.isEmpty());
+	}
+	
+	@Test
+	public void testSortValid() {
+		String expected = "[nanyang technological university, national university of singapore, ntu, nus, sim, singapore management university, sit, smu, sutd]";
+		searchFoundContents = TextBuddy.sortData();
+		assertEquals(expected, searchFoundContents.toString());
 	}
 }
