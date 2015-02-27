@@ -26,8 +26,6 @@ public class TextBuddy {
 	// ArrayList to store the search data
 	private static ArrayList<String> searchFoundContents;
 
-	private static String fileName = "";
-
 	// Commands available to the User
 	enum COMMAND {
 		ADD, DISPLAY, DELETE, CLEAR, SEARCH, SORT, EXIT, INVALID
@@ -62,10 +60,10 @@ public class TextBuddy {
 		exitIfIncorrectFileFormat(args);
 
 		// Method call to load the file data
-		loadFileData(args);
+		String fileName = loadFileData(args);
 
 		// Method call to execute User input
-		executeUserInput();
+		executeUserInput(fileName);
 	}
 
 	
@@ -113,8 +111,8 @@ public class TextBuddy {
 	 * 
 	 * @param args This is the filename argument.
 	 */
-	public static void loadFileData(String[] args) {
-		fileName = new String(args[0]);
+	public static String loadFileData(String[] args) {
+		String fileName = new String(args[0]);
 		File fileDocument = new File(fileName);
 
 		if (fileDocument.exists()) {
@@ -123,14 +121,13 @@ public class TextBuddy {
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 				// Method call to retrieve data from BufferedReader
-				retrieveData(bufferedReader);
+				retrieveData(bufferedReader, fileName);
 
 				fileReader.close();
 
 				displayMessage(String.format(MESSAGE_WELCOME, fileName));
 			} catch (IOException e) {
-				displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED,
-						fileName));
+				displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED, fileName));
 			}
 		} else {
 			try {
@@ -145,6 +142,7 @@ public class TextBuddy {
 				exit();
 			}
 		}
+		return fileName;
 	}
 
 	/**
@@ -153,7 +151,7 @@ public class TextBuddy {
 	 * 
 	 * @param bufferedReader This is the BufferedReader object.
 	 */
-	private static void retrieveData(BufferedReader bufferedReader) {
+	private static void retrieveData(BufferedReader bufferedReader, String fileName) {
 		fileContents = new ArrayList<String>();
 
 		try {
@@ -164,8 +162,7 @@ public class TextBuddy {
 				data = bufferedReader.readLine();
 			}
 		} catch (IOException e) {
-			displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED,
-					fileName));
+			displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED, fileName));
 		}
 	}
 
@@ -182,7 +179,7 @@ public class TextBuddy {
 	 * This method will execute the User's input and process the commands
 	 * accordingly before it is saved to the file.
 	 */
-	private static void executeUserInput() {
+	private static void executeUserInput(String fileName) {
 		String userInput = "";
 
 		Scanner sc = new Scanner(System.in);
@@ -194,10 +191,10 @@ public class TextBuddy {
 			userInput = getInputData(sc);
 
 			// Method call to process User's input
-			processInputData(userInput);
+			processInputData(userInput, fileName);
 
 			// Method call to save data to the file
-			saveFileData();
+			saveFileData(fileName);
 
 		} while (userInput != null);
 	}
@@ -219,7 +216,7 @@ public class TextBuddy {
 	 * 
 	 * @param userInput This is the User input.
 	 */
-	public static void processInputData(String userInput) {
+	public static void processInputData(String userInput, String fileName) {
 		ArrayList<String> resultList;
 		String userCommand = getUserCommand(userInput);
 		String userInputData = getUserInputData(userInput);
@@ -232,27 +229,27 @@ public class TextBuddy {
 		switch (commandType) {
 		case ADD:
 			// Method call to add data to the file
-			addData(userInputData);
+			addData(userInputData, fileName);
 			break;
 		case DISPLAY:
 			// Method call to display the data in the file
-			displayData();
+			displayData(fileName);
 			break;
 		case DELETE:
 			// Method call to delete the specified data
-			deleteData(userInputData);
+			deleteData(userInputData, fileName);
 			break;
 		case CLEAR:
 			// Method call to clear all data in the file
-			clearData();
+			clearData(fileName);
 			break;
 		case SEARCH:
 			// Method call to search for data based on search key
-			resultList = searchData(userInputData);
+			resultList = searchData(userInputData, fileName);
 			break;
 		case SORT:
 			// Method call to sort data
-			resultList = sortData();
+			resultList = sortData(fileName);
 			break;
 		case EXIT:
 			// Method call to exit from the Application
@@ -337,18 +334,18 @@ public class TextBuddy {
 	 * 
 	 * @param userInputData This is the User input data (to be added).
 	 */
-	private static void addData(String userInputData) {
+	private static void addData(String userInputData, String fileName) {
 		if (userInputData != null) {
 			fileContents.add(userInputData);
 			displayMessage(String.format(MESSAGE_ADD, fileName, userInputData));
 		}
-		saveFileData();
+		saveFileData(fileName);
 	}
 
 	/**
 	 * This method will display all the data in the file
 	 */
-	private static void displayData() {
+	private static void displayData(String fileName) {
 		int dataCounter = 1;
 		if (fileContents.size() > 0) {
 			for(String data : fileContents) {
@@ -364,7 +361,7 @@ public class TextBuddy {
 	 * 
 	 * @param userInputData This is the User input data (item to be deleted).
 	 */
-	private static void deleteData(String userInputData) {
+	private static void deleteData(String userInputData, String fileName) {
 		int userData = Integer.parseInt(userInputData);
 		// To check whether the list is empty
 		if (fileContents.size() > 0) {
@@ -377,16 +374,16 @@ public class TextBuddy {
 		} else {
 			displayMessage(MESSAGE_ERROR_INVALID_OPTION);
 		}
-		saveFileData();
+		saveFileData(fileName);
 	}
 
 	/**
 	 * This method will clear all the data in the file
 	 */
-	public static void clearData() {
+	public static void clearData(String fileName) {
 		fileContents.clear();
 		displayMessage(String.format(MESSAGE_CLEAR, fileName));
-		saveFileData();
+		saveFileData(fileName);
 	}
 	
 	/**
@@ -396,7 +393,7 @@ public class TextBuddy {
 	 * 
 	 * @return The list of items found.
 	 */
-	public static ArrayList<String> searchData(String userInputData) {
+	public static ArrayList<String> searchData(String userInputData, String fileName) {
 		boolean foundFlag = false;
 		searchFoundContents = new ArrayList<String>();
 		
@@ -459,7 +456,7 @@ public class TextBuddy {
 	 * 
 	 * @return The list of items sorted.
 	 */
-	public static ArrayList<String> sortData() {
+	public static ArrayList<String> sortData(String fileName) {
 		if (fileContents.size() > 0) {
 			Collections.sort(fileContents);
 			displayMessage(String.format(MESSAGE_SORT_COMPLETE, fileName));
@@ -467,7 +464,7 @@ public class TextBuddy {
 		else {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
-		saveFileData();
+		saveFileData(fileName);
 		return fileContents;
 	}
 	
@@ -482,7 +479,7 @@ public class TextBuddy {
 	 * This method will save the interactions by the User to the file. For
 	 * example, like adding data
 	 */
-	public static void saveFileData() {
+	public static void saveFileData(String fileName) {
 		try {
 			FileWriter fileWriter = new FileWriter(fileName);
 
