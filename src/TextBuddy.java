@@ -61,8 +61,6 @@ public class TextBuddy {
 		// Method call to check for incorrect file format
 		exitIfIncorrectFileFormat(args);
 
-		//fileName = new String(args[0]);
-
 		// Method call to load the file data
 		loadFileData(args);
 
@@ -70,10 +68,13 @@ public class TextBuddy {
 		executeUserInput();
 	}
 
-	/*
+	
+	/**
 	 * This method will check whether the User specifies any arguments. If there
 	 * are no arguments, User will get error message
 	 * "ERROR: No arguments detected."
+	 * 
+	 * @param args This is the filename argument.			
 	 */
 	private static void exitIfNoArguments(String[] args) {
 		if (args.length == 0) {
@@ -84,10 +85,12 @@ public class TextBuddy {
 		}
 	}
 
-	/*
+	/**
 	 * This method will check whether the User specifies the correct file
 	 * format, for example ".txt". If it is incorrect, User will get error
 	 * message "ERROR: Incorrect File Format."
+	 * 
+	 * @param args This is the filename argument.
 	 */
 	public static void exitIfIncorrectFileFormat(String[] args) {
 		// To extract the file extension
@@ -102,11 +105,13 @@ public class TextBuddy {
 		}
 	}
 
-	/*
+	/**
 	 * This method will load the file data to the ArrayList. If the specified
 	 * file does not exist, Application will create the new file for storing the
 	 * information entered by the User. Upon successful initialization, the User
 	 * will see the welcome message and start interacting with the Application.
+	 * 
+	 * @param args This is the filename argument.
 	 */
 	public static void loadFileData(String[] args) {
 		fileName = new String(args[0]);
@@ -142,8 +147,12 @@ public class TextBuddy {
 		}
 	}
 
-	// This method will make use of BufferedReader to read in the data and store
-	// in the ArrayList.
+	/**
+	 * This method will make use of BufferedReader to read in the data and store
+	 * in the ArrayList.
+	 * 
+	 * @param bufferedReader This is the BufferedReader object.
+	 */
 	private static void retrieveData(BufferedReader bufferedReader) {
 		fileContents = new ArrayList<String>();
 
@@ -160,12 +169,16 @@ public class TextBuddy {
 		}
 	}
 
-	// This method is used to print out messages
+	/**
+	 * This method is used to print out messages
+	 * 
+	 * @param message This is the message to be printed out.
+	 */
 	private static void displayMessage(String message) {
 		System.out.print(message);
 	}
 
-	/*
+	/**
 	 * This method will execute the User's input and process the commands
 	 * accordingly before it is saved to the file.
 	 */
@@ -189,13 +202,23 @@ public class TextBuddy {
 		} while (userInput != null);
 	}
 
-	// This method will read in the User's input
+	/**
+	 * This method will read in the User's input
+	 * 
+	 * @param sc This is the Scanner object.
+	 * 
+	 * @return The input string.
+	 */
 	private static String getInputData(Scanner sc) {
 		return sc.nextLine();
 	}
 
-	// This method will process the User's input, extracting the command and
-	// data separately
+	/**
+	 * This method will process the User's input, extracting the command and
+	 * data separately
+	 * 
+	 * @param userInput This is the User input.
+	 */
 	public static void processInputData(String userInput) {
 		ArrayList<String> resultList;
 		String userCommand = getUserCommand(userInput);
@@ -244,7 +267,13 @@ public class TextBuddy {
 		}
 	}
 
-	// This method will extract the command from User's input
+	/**
+	 * This method will extract the command from User's input
+	 * 
+	 * @param userInput This is the User input.
+	 * 
+	 * @return The User's command.
+	 */
 	private static String getUserCommand(String userInput) {
 		String userCommand = userInput;
 		int spaceIndex = userInput.indexOf(" ");
@@ -255,7 +284,13 @@ public class TextBuddy {
 		return userCommand;
 	}
 
-	// This method will extract the data from User's input
+	/**
+	 * This method will extract the data from User's input
+	 * 
+	 * @param userInput This is the User input.
+	 * 
+	 * @return The User's data.
+	 */
 	private static String getUserInputData(String userInput) {
 		String userInputData = "";
 		int userInputLength = userInput.length();
@@ -268,8 +303,14 @@ public class TextBuddy {
 		return userInputData;
 	}
 
-	// This method will determine which command to execute based on User's
-	// command
+	/**
+	 * This method will determine which command to execute based on User's
+	 * command
+	 * 
+	 * @param userCommand This is the User's command.
+	 * 
+	 * @return The respective command that matches the User's command.
+	 */
 	private static COMMAND determineCommandType(String userCommand) {
 
 		if (userCommand.equalsIgnoreCase("add")) {
@@ -291,7 +332,11 @@ public class TextBuddy {
 		}
 	}
 
-	// This method will add data to the ArrayList before it is saved to the file
+	/**
+	 * This method will add data to the ArrayList before it is saved to the file
+	 * 
+	 * @param userInputData This is the User input data (to be added).
+	 */
 	private static void addData(String userInputData) {
 		if (userInputData != null) {
 			fileContents.add(userInputData);
@@ -300,7 +345,9 @@ public class TextBuddy {
 		saveFileData();
 	}
 
-	// This method will display all the data in the file
+	/**
+	 * This method will display all the data in the file
+	 */
 	private static void displayData() {
 		int dataCounter = 1;
 		if (fileContents.size() > 0) {
@@ -312,7 +359,11 @@ public class TextBuddy {
 		}
 	}
 
-	// This method will delete data specified by the User
+	/**
+	 * This method will delete data specified by the User
+	 * 
+	 * @param userInputData This is the User input data (item to be deleted).
+	 */
 	private static void deleteData(String userInputData) {
 		int userData = Integer.parseInt(userInputData);
 		// To check whether the list is empty
@@ -329,14 +380,22 @@ public class TextBuddy {
 		saveFileData();
 	}
 
-	// This method will clear all the data in the file
+	/**
+	 * This method will clear all the data in the file
+	 */
 	public static void clearData() {
 		fileContents.clear();
 		displayMessage(String.format(MESSAGE_CLEAR, fileName));
 		saveFileData();
 	}
 	
-	// This method will search for the data that matches the search key
+	/**
+	 * This method will search for the data that matches the search key
+	 * 
+	 * @param userInputData This is the User input data (search key).
+	 * 
+	 * @return The list of items found.
+	 */
 	public static ArrayList<String> searchData(String userInputData) {
 		boolean foundFlag = false;
 		searchFoundContents = new ArrayList<String>();
@@ -363,7 +422,15 @@ public class TextBuddy {
 		return searchFoundContents;
 	}
 	
-	// This method will compare the data with the search key
+	/**
+	 * This method will compare the data with the search key
+	 * 
+	 * @param data This is the data in the file.
+	 * 
+	 * @param searchKey This is the User input data (search key).
+	 * 
+	 * @return True if the comparison is matched.
+	 */
 	private static boolean compareData(String data, String searchKey) {
 		boolean compareFlag = false;
 		
@@ -373,7 +440,9 @@ public class TextBuddy {
 		return compareFlag;
 	}
 	
-	// This method will display the search data
+	/**
+	 * This method will display the search data
+	 */
 	private static void displaySearchData() {
 		int dataCounter = 1;
 		if (searchFoundContents.size() > 0) {
@@ -385,7 +454,11 @@ public class TextBuddy {
 		}
 	}
 	
-	// This method will sort the data
+	/**
+	 * This method will sort the data
+	 * 
+	 * @return The list of items sorted.
+	 */
 	public static ArrayList<String> sortData() {
 		if (fileContents.size() > 0) {
 			Collections.sort(fileContents);
@@ -398,13 +471,17 @@ public class TextBuddy {
 		return fileContents;
 	}
 	
-	// This method will exit the Application
+	/**
+	 * This method will exit the Application
+	 */
 	private static void exit() {
 		System.exit(0);
 	}
 
-	// This method will save the interactions by the User to the file. For
-	// example, like adding data
+	/**
+	 * This method will save the interactions by the User to the file. For
+	 * example, like adding data
+	 */
 	public static void saveFileData() {
 		try {
 			FileWriter fileWriter = new FileWriter(fileName);
@@ -418,7 +495,11 @@ public class TextBuddy {
 		}
 	}
 
-	// This method will make use of FileWriter to save data to the file
+	/**
+	 * This method will make use of FileWriter to save data to the file
+	 * 
+	 * @param fileWriter This is the FileWriter object.
+	 */
 	private static void saveData(FileWriter fileWriter) {
 		try {
 			for (int i = 0; i < fileContents.size(); i++) {
