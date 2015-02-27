@@ -37,7 +37,7 @@ public class TextBuddy {
 	private static final String MESSAGE_DELETE = "\nDeleted from \"%1$s\": \"%2$s\"";
 	private static final String MESSAGE_CLEAR = "\nAll content deleted from \"%1$s\".";
 	private static final String MESSAGE_FOUND = "\nSearch found in \"%1$s\" with search key: \"%2$s\"";
-	private static final String MESSAGE_NOT_FOUND ="\nSearch not found in \"%1$s\" with search key: \"%2$s\"";
+	private static final String MESSAGE_NOT_FOUND = "\nSearch not found in \"%1$s\" with search key: \"%2$s\"";
 	private static final String MESSAGE_SORT_COMPLETE = "\nSort completed.";
 	private static final String MESSAGE_EMPTY_LIST = "\n\"%1$s\" is empty.";
 	private static final String MESSAGE_EMPTY_SEARCH_LIST = "\nSearch list is empty.";
@@ -66,13 +66,13 @@ public class TextBuddy {
 		executeUserInput(fileName);
 	}
 
-	
 	/**
 	 * This method will check whether the User specifies any arguments. If there
 	 * are no arguments, User will get error message
 	 * "ERROR: No arguments detected."
 	 * 
-	 * @param args This is the filename argument.			
+	 * @param args
+	 *            This is the filename argument.
 	 */
 	private static void exitIfNoArguments(String[] args) {
 		if (args.length == 0) {
@@ -88,7 +88,8 @@ public class TextBuddy {
 	 * format, for example ".txt". If it is incorrect, User will get error
 	 * message "ERROR: Incorrect File Format."
 	 * 
-	 * @param args This is the filename argument.
+	 * @param args
+	 *            This is the filename argument.
 	 */
 	public static void exitIfIncorrectFileFormat(String[] args) {
 		// To extract the file extension
@@ -109,7 +110,8 @@ public class TextBuddy {
 	 * information entered by the User. Upon successful initialization, the User
 	 * will see the welcome message and start interacting with the Application.
 	 * 
-	 * @param args This is the filename argument.
+	 * @param args
+	 *            This is the filename argument.
 	 */
 	public static String loadFileData(String[] args) {
 		String fileName = new String(args[0]);
@@ -127,14 +129,15 @@ public class TextBuddy {
 
 				displayMessage(String.format(MESSAGE_WELCOME, fileName));
 			} catch (IOException e) {
-				displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED, fileName));
+				displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED,
+						fileName));
 			}
 		} else {
 			try {
 				// If file specified does not exist, proceed to create file
 				fileDocument.createNewFile();
 
-				//loadFileData(fileName);
+				// loadFileData(fileName);
 			} catch (IOException e) {
 				displayMessage(MESSAGE_ERROR_FILE_NOT_CREATED);
 
@@ -149,9 +152,13 @@ public class TextBuddy {
 	 * This method will make use of BufferedReader to read in the data and store
 	 * in the ArrayList.
 	 * 
-	 * @param bufferedReader This is the BufferedReader object.
+	 * @param bufferedReader
+	 *            This is the BufferedReader object.
+	 * @param fileName
+	 *            This is the file name.
 	 */
-	private static void retrieveData(BufferedReader bufferedReader, String fileName) {
+	private static void retrieveData(BufferedReader bufferedReader,
+			String fileName) {
 		fileContents = new ArrayList<String>();
 
 		try {
@@ -162,14 +169,16 @@ public class TextBuddy {
 				data = bufferedReader.readLine();
 			}
 		} catch (IOException e) {
-			displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED, fileName));
+			displayMessage(String.format(MESSAGE_ERROR_FILE_NOT_LOADED,
+					fileName));
 		}
 	}
 
 	/**
 	 * This method is used to print out messages
 	 * 
-	 * @param message This is the message to be printed out.
+	 * @param message
+	 *            This is the message to be printed out.
 	 */
 	private static void displayMessage(String message) {
 		System.out.print(message);
@@ -202,7 +211,8 @@ public class TextBuddy {
 	/**
 	 * This method will read in the User's input
 	 * 
-	 * @param sc This is the Scanner object.
+	 * @param sc
+	 *            This is the Scanner object.
 	 * 
 	 * @return The input string.
 	 */
@@ -214,7 +224,10 @@ public class TextBuddy {
 	 * This method will process the User's input, extracting the command and
 	 * data separately
 	 * 
-	 * @param userInput This is the User input.
+	 * @param userInput
+	 *            This is the User input.
+	 * @param fileName
+	 *            This is the file name.
 	 */
 	public static void processInputData(String userInput, String fileName) {
 		ArrayList<String> resultList;
@@ -225,7 +238,7 @@ public class TextBuddy {
 		COMMAND commandType = determineCommandType(userCommand);
 
 		// Switch case statements to perform various tasks like Add, Delete,
-		// Display, Clear and Exit
+		// Display, Clear, Search, Sort and Exit
 		switch (commandType) {
 		case ADD:
 			// Method call to add data to the file
@@ -267,7 +280,8 @@ public class TextBuddy {
 	/**
 	 * This method will extract the command from User's input
 	 * 
-	 * @param userInput This is the User input.
+	 * @param userInput
+	 *            This is the User input.
 	 * 
 	 * @return The User's command.
 	 */
@@ -284,7 +298,8 @@ public class TextBuddy {
 	/**
 	 * This method will extract the data from User's input
 	 * 
-	 * @param userInput This is the User input.
+	 * @param userInput
+	 *            This is the User input.
 	 * 
 	 * @return The User's data.
 	 */
@@ -292,11 +307,11 @@ public class TextBuddy {
 		String userInputData = "";
 		int userInputLength = userInput.length();
 		int spaceIndex = userInput.indexOf(" ");
-		
+
 		if (spaceIndex != -1) {
-			userInputData = userInput.substring(spaceIndex + 1,
-					userInputLength);
-		} 
+			userInputData = userInput
+					.substring(spaceIndex + 1, userInputLength);
+		}
 		return userInputData;
 	}
 
@@ -304,7 +319,8 @@ public class TextBuddy {
 	 * This method will determine which command to execute based on User's
 	 * command
 	 * 
-	 * @param userCommand This is the User's command.
+	 * @param userCommand
+	 *            This is the User's command.
 	 * 
 	 * @return The respective command that matches the User's command.
 	 */
@@ -318,7 +334,7 @@ public class TextBuddy {
 			return COMMAND.DISPLAY;
 		} else if (userCommand.equalsIgnoreCase("clear")) {
 			return COMMAND.CLEAR;
-		} else if(userCommand.equalsIgnoreCase("search")) {
+		} else if (userCommand.equalsIgnoreCase("search")) {
 			return COMMAND.SEARCH;
 		} else if (userCommand.equalsIgnoreCase("sort")) {
 			return COMMAND.SORT;
@@ -332,7 +348,10 @@ public class TextBuddy {
 	/**
 	 * This method will add data to the ArrayList before it is saved to the file
 	 * 
-	 * @param userInputData This is the User input data (to be added).
+	 * @param userInputData
+	 *            This is the User input data (to be added).
+	 * @param fileName
+	 *            This is the file name.
 	 */
 	private static void addData(String userInputData, String fileName) {
 		if (userInputData != null) {
@@ -344,11 +363,14 @@ public class TextBuddy {
 
 	/**
 	 * This method will display all the data in the file
+	 * 
+	 * @param fileName
+	 *            This is the file name.
 	 */
 	private static void displayData(String fileName) {
 		int dataCounter = 1;
 		if (fileContents.size() > 0) {
-			for(String data : fileContents) {
+			for (String data : fileContents) {
 				System.out.println("\n" + (dataCounter++) + ". " + data);
 			}
 		} else {
@@ -359,7 +381,10 @@ public class TextBuddy {
 	/**
 	 * This method will delete data specified by the User
 	 * 
-	 * @param userInputData This is the User input data (item to be deleted).
+	 * @param userInputData
+	 *            This is the User input data (item to be deleted).
+	 * @param fileName
+	 *            This is the file name.
 	 */
 	private static void deleteData(String userInputData, String fileName) {
 		int userData = Integer.parseInt(userInputData);
@@ -379,80 +404,93 @@ public class TextBuddy {
 
 	/**
 	 * This method will clear all the data in the file
+	 * 
+	 * @param fileName
+	 *            This is the file name.
 	 */
 	public static void clearData(String fileName) {
 		fileContents.clear();
 		displayMessage(String.format(MESSAGE_CLEAR, fileName));
 		saveFileData(fileName);
 	}
-	
+
 	/**
 	 * This method will search for the data that matches the search key
 	 * 
-	 * @param userInputData This is the User input data (search key).
+	 * @param userInputData
+	 *            This is the User input data (search key).
+	 * @param fileName
+	 *            This is the file name.
 	 * 
 	 * @return The list of items found.
 	 */
-	public static ArrayList<String> searchData(String userInputData, String fileName) {
+	public static ArrayList<String> searchData(String userInputData,
+			String fileName) {
 		boolean foundFlag = false;
 		searchFoundContents = new ArrayList<String>();
-		
-		if(fileContents.size() > 0) {
-			for(String data : fileContents)	{
-				
-				if(compareData(data, userInputData) && !userInputData.equals("")) {
-					foundFlag = true;			
+
+		if (fileContents.size() > 0) {
+			for (String data : fileContents) {
+
+				if (compareData(data, userInputData)
+						&& !userInputData.equals("")) {
+					foundFlag = true;
 					searchFoundContents.add(data);
 				}
 			}
-			if(foundFlag) {
+			if (foundFlag) {
 				displaySearchData();
-				displayMessage(String.format(MESSAGE_FOUND, fileName, userInputData));
+				displayMessage(String.format(MESSAGE_FOUND, fileName,
+						userInputData));
+			} else {
+				displayMessage(String.format(MESSAGE_NOT_FOUND, fileName,
+						userInputData));
 			}
-			else {
-				displayMessage(String.format(MESSAGE_NOT_FOUND, fileName, userInputData));
-			}
-		}
-		else {
+		} else {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
 		return searchFoundContents;
 	}
-	
+
 	/**
 	 * This method will compare the data with the search key
 	 * 
-	 * @param data This is the data in the file.
+	 * @param data
+	 *            This is the data in the file.
 	 * 
-	 * @param searchKey This is the User input data (search key).
+	 * @param searchKey
+	 *            This is the User input data (search key).
 	 * 
 	 * @return True if the comparison is matched.
 	 */
 	private static boolean compareData(String data, String searchKey) {
 		boolean compareFlag = false;
-		
-		if(data.toLowerCase().contains(searchKey.toLowerCase())) {
+
+		if (data.toLowerCase().contains(searchKey.toLowerCase())) {
 			compareFlag = true;
 		}
 		return compareFlag;
 	}
-	
+
 	/**
 	 * This method will display the search data
 	 */
 	private static void displaySearchData() {
 		int dataCounter = 1;
 		if (searchFoundContents.size() > 0) {
-			for(String data : searchFoundContents) {
+			for (String data : searchFoundContents) {
 				System.out.println("\n" + (dataCounter++) + ". " + data);
 			}
 		} else {
 			displayMessage(String.format(MESSAGE_EMPTY_SEARCH_LIST));
 		}
 	}
-	
+
 	/**
 	 * This method will sort the data
+	 * 
+	 * @param fileName
+	 *            This is the file name.
 	 * 
 	 * @return The list of items sorted.
 	 */
@@ -460,14 +498,13 @@ public class TextBuddy {
 		if (fileContents.size() > 0) {
 			Collections.sort(fileContents);
 			displayMessage(String.format(MESSAGE_SORT_COMPLETE, fileName));
-		}
-		else {
+		} else {
 			displayMessage(String.format(MESSAGE_EMPTY_LIST, fileName));
 		}
 		saveFileData(fileName);
 		return fileContents;
 	}
-	
+
 	/**
 	 * This method will exit the Application
 	 */
@@ -478,6 +515,9 @@ public class TextBuddy {
 	/**
 	 * This method will save the interactions by the User to the file. For
 	 * example, like adding data
+	 * 
+	 * @param fileName
+	 *            This is the file name.
 	 */
 	public static void saveFileData(String fileName) {
 		try {
@@ -495,7 +535,8 @@ public class TextBuddy {
 	/**
 	 * This method will make use of FileWriter to save data to the file
 	 * 
-	 * @param fileWriter This is the FileWriter object.
+	 * @param fileWriter
+	 *            This is the FileWriter object.
 	 */
 	private static void saveData(FileWriter fileWriter) {
 		try {
